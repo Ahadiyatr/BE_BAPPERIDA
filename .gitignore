@@ -1,0 +1,58 @@
+# =========================
+# Laravel
+# =========================
+/vendor/
+/node_modules/
+
+# =========================
+# Environment
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Application
+# =========================
+/bootstrap/cache/*.php
+/storage/*.key
+/storage/app/*
+/storage/framework/*
+/storage/logs/*
+
+# keep folder structure
+!/storage/app/.gitignore
+!/storage/framework/.gitignore
+!/storage/logs/.gitignore
+
+# =========================
+# Cache & Logs
+# =========================
+/public/storage
+.phpunit.result.cache
+npm-debug.log
+yarn-error.log
+
+# =========================
+# Build
+# =========================
+/public/build
+/public/hot
+
+# =========================
+# OS
+# =========================
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# =========================
+# IDE
+# =========================
+.vscode/
+.idea/
+
+# =========================
+# Testing
+# =========================
+/coverage

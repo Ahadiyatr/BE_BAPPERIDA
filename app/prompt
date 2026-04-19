@@ -1,0 +1,51 @@
+-- opera_ink_db.v_trans_indikator_bidang source
+
+CREATE OR REPLACE
+ALGORITHM = UNDEFINED VIEW `opera_ink_db`.`v_trans_indikator_bidang` AS
+select
+    `tib`.`ID` AS `ID`,
+    `mp`.`NAMA_PROGRAM` AS `NAMA_PROGRAM`,
+    `miu`.`NAMA_INDIKATOR_UTAMA` AS `NAMA_INDIKATOR_UTAMA`,
+    `mi`.`NAMA_INDIKATOR` AS `NAMA_INDIKATOR`,
+    `mb`.`NAMA_BIDANG` AS `NAMA_BIDANG`,
+    `mpd`.`NAMA_PERIODE` AS `NAMA_PERIODE`,
+    `tib`.`FLAG_ACTIVE` AS `FLAG_ACTIVE`,
+    `tib`.`LOG_ENTRY_NAME` AS `LOG_ENTRY_NAME`,
+    `tib`.`LOG_ENTRY_DATE` AS `LOG_ENTRY_DATE`,
+    `tib`.`LOG_UPDATE_NAME` AS `LOG_UPDATE_NAME`,
+    `tib`.`LOG_UPDATE_DATE` AS `LOG_UPDATE_DATE`
+from
+    (((((`opera_ink_db`.`trans_indikator_bidang` `tib`
+left join `opera_ink_db`.`master_bidang` `mb` on
+    ((`mb`.`ID` = `tib`.`BIDANG_ID`)))
+left join `opera_ink_db`.`master_periode` `mpd` on
+    ((`mpd`.`ID` = `tib`.`PERIODE_ID`)))
+left join `opera_ink_db`.`master_indikator` `mi` on
+    ((`mi`.`ID` = `tib`.`MASTER_INDIKATOR_ID`)))
+left join `opera_ink_db`.`master_indikator_utama` `miu` on
+    ((`miu`.`ID` = `mi`.`INDIKATOR_UTAMA_ID`)))
+left join `opera_ink_db`.`master_program` `mp` on
+    ((`mp`.`ID` = `miu`.`PROGRAM_ID`)));
+
+-- opera_ink_db.TRANS_INDIKATOR_BIDANG definition
+CREATE TABLE `TRANS_INDIKATOR_BIDANG` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `PERIODE_ID` int NOT NULL,
+  `BIDANG_ID` int NOT NULL,
+  `MASTER_INDIKATOR_ID` int NOT NULL,
+  `FLAG_ACTIVE` tinyint(1) DEFAULT '1',
+  `LOG_ENTRY_NAME` varchar(100) DEFAULT NULL,
+  `LOG_ENTRY_DATE` datetime DEFAULT CURRENT_TIMESTAMP,
+  `LOG_UPDATE_NAME` varchar(100) DEFAULT NULL,
+  `LOG_UPDATE_DATE` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `UNQ_PERIODE_BIDANG_INDIKATOR` (`PERIODE_ID`,`BIDANG_ID`,`MASTER_INDIKATOR_ID`),
+  KEY `FK_TIB_BIDANG` (`BIDANG_ID`),
+  KEY `FK_TIB_MASTER_INDIKATOR` (`MASTER_INDIKATOR_ID`),
+  KEY `idx_bidang` (`BIDANG_ID`),
+  CONSTRAINT `FK_TIB_BIDANG` FOREIGN KEY (`BIDANG_ID`) REFERENCES `MASTER_BIDANG` (`ID`) ON DELETE CASCADE,
+  CONSTRAINT `FK_TIB_MASTER_INDIKATOR` FOREIGN KEY (`MASTER_INDIKATOR_ID`) REFERENCES `MASTER_INDIKATOR` (`ID`) ON DELETE CASCADE,
+  CONSTRAINT `FK_TIB_PERIODE` FOREIGN KEY (`PERIODE_ID`) REFERENCES `MASTER_PERIODE` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+lanjut tampilkan view sql, dan buat endpoint crud nya
