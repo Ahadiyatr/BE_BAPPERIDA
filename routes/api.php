@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Kegiatan\RealisasiKegiatanController;
 use App\Http\Controllers\Kegiatan\RencanaKegiatanController;
 use App\Http\Controllers\MasterBidangController;
@@ -19,6 +20,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
+
+    Route::get('/dashboard', [DashboardController::class, 'index']);
 
     // Master Data
     Route::apiResource('master-program', MasterProgramController::class);
