@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Kegiatan;
 use App\Http\Controllers\Controller;
 use App\Models\TransIndikatorBidang;
 use App\Models\TransIndikatorDetail;
+use App\Models\TransRealisasiKegiatan;
 use App\Models\VTransCapaianIndikator;
 use App\Models\VTransIndikatorRekap;
 use App\Models\VwTransRealisasi;
@@ -149,9 +150,23 @@ class RencanaKegiatanController extends Controller
             ->get();
 
         // 🔹 3. REALISASI
-        $realisasi = VwTransRealisasi::where('INDIKATOR_BIDANG_ID', $indikatorBidangId)
+        $realisasi = TransRealisasiKegiatan::whereHas('indikatorDetail', function($q) use ($indikatorBidangId) {
+                $q->where('INDIKATOR_BIDANG_ID', $indikatorBidangId);
+            })
             ->orderBy('TANGGAL_KEGIATAN', 'desc')
-            ->get();
+            ->get()
+            ->map(function($item) {
+                return [
+                    'ID' => $item->ID,
+                    'TANGGAL_KEGIATAN' => $item->TANGGAL_KEGIATAN,
+                    'KETERANGAN' => $item->KETERANGAN,
+                    'FILE_FOTO' => $item->FILE_FOTO,
+                    'PATH_FOTO' => $item->file_foto_full,
+                    'FILE_DOCUMENT' => $item->FILE_DOCUMENT,
+                    'INDIKATOR_BIDANG_ID' => optional($item->indikatorDetail)->INDIKATOR_BIDANG_ID,
+                    'JENIS_KEGIATAN' => optional($item->indikatorDetail)->JENIS_KEGIATAN,
+                ];
+            });
 
         return $this->success([
             'header' => $header,

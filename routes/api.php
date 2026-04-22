@@ -45,6 +45,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/realisasi-kegiatan', [RealisasiKegiatanController::class, 'index']);
     Route::get('/realisasi-kegiatan/{id}', [RealisasiKegiatanController::class, 'show']);
     Route::post('/realisasi-kegiatan/{detailId}', [RealisasiKegiatanController::class, 'addRealisasi']); // Next bisa dibuat 'Save As Draft' or 'Submit and Publish'
+    Route::delete('/realisasi-kegiatan/{id}', [RealisasiKegiatanController::class, 'deleteRealisasi']);
     // Update Realisasi
     // Delete Realisasi
 });
