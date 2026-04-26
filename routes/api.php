@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [AuthController::class, 'user']);
 
     Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/dashboard/bidang/{id}', [DashboardController::class, 'detailBidang']);
 
     // Master Data
     Route::apiResource('master-program', MasterProgramController::class);
