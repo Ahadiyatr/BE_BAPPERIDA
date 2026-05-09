@@ -2,39 +2,46 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JenisKegiatanController;
 use App\Http\Controllers\Kegiatan\RealisasiKegiatanController;
 use App\Http\Controllers\Kegiatan\RencanaKegiatanController;
+use App\Http\Controllers\MasterAktifitasUtamaController;
 use App\Http\Controllers\MasterBidangController;
 use App\Http\Controllers\MasterIndikatorController;
 use App\Http\Controllers\MasterIndikatorUtamaController;
 use App\Http\Controllers\MasterPeriodeController;
 use App\Http\Controllers\MasterProgramController;
+use App\Http\Controllers\MasterUserController;
+use App\Http\Controllers\TransAktifitasUtamaController;
 use App\Http\Controllers\TransCapaianIndikatorController;
 use App\Http\Controllers\TransIndikatorBidangController;
 use App\Http\Controllers\TransIndikatorDetailController;
 use App\Http\Controllers\TransRealisasiKegiatanController;
 use Illuminate\Support\Facades\Route;
 
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::get('/dashboard/bidang/{id}', [DashboardController::class, 'detailBidang']);
 // Auth
-Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'user']);
 
-    Route::get('/dashboard', [DashboardController::class, 'index']);
-    Route::get('/dashboard/bidang/{id}', [DashboardController::class, 'detailBidang']);
-
     // Master Data
     Route::apiResource('master-program', MasterProgramController::class);
     Route::apiResource('master-indikator-utama', MasterIndikatorUtamaController::class);
+    Route::apiResource('master-aktifitas-utama', MasterAktifitasUtamaController::class);
     Route::apiResource('master-indikator', MasterIndikatorController::class);
     Route::apiResource('master-bidang', MasterBidangController::class);
     Route::apiResource('master-periode', MasterPeriodeController::class);
+    Route::apiResource('master-user', MasterUserController::class);
+    Route::apiResource('master-jenis-kegiatan', JenisKegiatanController::class);
 
     // perlu di cek lagi, apakah ini masih diperlukan atau sudah bisa dihapus karena sudah ada di RencanaKegiatanController
     Route::apiResource('trans-capaian-indikator', TransCapaianIndikatorController::class)->only(['index']);
     Route::apiResource('trans-indikator-bidang', TransIndikatorBidangController::class);
     Route::apiResource('trans-indikator-detail', TransIndikatorDetailController::class);
+    Route::apiResource('trans-aktifitas-utama', TransAktifitasUtamaController::class);
     Route::apiResource('trans-realisasi-kegiatan', TransRealisasiKegiatanController::class);
 
     // Rencana Kegiatan

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class VTransIndikatorRekap extends Model
 {
-    protected $table = 'v_trans_indikator_rekap';
+    protected $table = 'v_trans_indikator_rekap1';
 
     protected $primaryKey = 'ID';
 

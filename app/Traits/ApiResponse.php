@@ -25,6 +25,7 @@ trait ApiResponse
         $response = [
             'success' => false,
             'message' => $message,
+            'data' => null,
         ];
 
         if ($errors !== null) {
